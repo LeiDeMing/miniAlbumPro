@@ -1,7 +1,9 @@
 const {
     User
 } = require('./model');
-
+const {
+    encode
+} = require('../crypto');
 const getByOpenId = async (openId) => {
     const users = await User.find({
         openId: openId
@@ -20,5 +22,13 @@ module.exports = {
         }
         const id = user._id;
         const sessionKey = encode(id);
+        await User.update({
+            _id: id
+        },{
+            lastLogin:Date.now()
+        });
+        return {
+            sessionKey
+        }
     }
 }
