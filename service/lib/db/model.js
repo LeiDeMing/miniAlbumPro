@@ -24,3 +24,7 @@ const userSchema = new mongoose.Schema({
         type: Number
     }
 })
+
+module.exports={
+    User:mongoose.model('User',userSchema)
+}
