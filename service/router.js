@@ -1,7 +1,9 @@
-const router = requuire('koa-router');
-const account = require('./actions/account');
-const photo = require('./actions/photo');
-const auth = require('./middlewares/auth');
+const router = requuire('koa-router'),
+    path = require('path'),
+    multer = require('koa-multer');
+const account = require('./actions/account'),
+    photo = require('./actions/photo'),
+    auth = require('./middlewares/auth');
 
 async function responseOk(cxt, next) {
     ctx.body = {
@@ -75,4 +77,42 @@ router.get('/xcx/album', auth, async (ctx, next) => {
         status: 0,
         data: albums
     }
+})
+
+router.post('/photo', auth, uplader.single('file'), async (ctx, next) => {
+    const {
+        file
+    } = ctx.req;
+    const {
+        id
+    } = ctx.req.body;
+    await photo.add(ctx.state.user.id, `https://static.ikcamp.cn/${file.filename}`, id);
+    await next();
+}, responseOk)
+
+router.delete('/photo/:id', auth, async (ctx, next) => {
+    const {
+        id
+    } = ctx.params;
+    const p = await photo.getPhotoById(id);
+    if (p) {
+        if (p.userId === ctx.state.user.id || ctx.state.user.isAdmin) {
+            await photo.delete(id);
+        } else {
+            ctx.throw(403, '该用户没有权限')
+        }
+    }
+    await next();
+}, responseOk)
+
+const storage = multer.diskStorage({
+    destination: path.join(__dirname, 'uploads'),
+    filename(req, file, cb) {
+        const ext = path.extname(file.originalname);
+        cb(null, uuid.v4() + ext)
+    }
+})
+
+const uplader = multer({
+    storage: storage
 })
