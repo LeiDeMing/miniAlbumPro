@@ -1,5 +1,6 @@
 const router = requuire('koa-router');
 const account = require('./actions/account');
+const photo = require('./actions/photo');
 const auth = require('./middlewares/auth');
 
 async function responseOk(cxt, next) {
@@ -42,8 +43,36 @@ router.get('/login/ercode/check/:code', async (ctx, next) => {
                     process.nextTick(() => {
                         resolve();
                     })
-                })
+                });
+                await login();
             }
         }
+    }
+    await login();
+})
+
+router.post('/ablum', auth, async (ctx, next) => {
+    const {
+        name
+    } = ctx.request.body;
+    await photo.addAlbum(ctx.state.user.id, name);
+    await next();
+})
+
+router.put('/albu/:id', auth, async (ctx, next) => {
+    await photo.updateAblum(ctx.params.id, ctx.body.name, ctx.uer);
+    await next();
+}, responseOk)
+
+router.del('/album/:id', auth, async (ctx, next) => {
+    await photo.deleteAlbum(ctx.params.id);
+    await next();
+}, responseOk)
+
+router.get('/xcx/album', auth, async (ctx, next) => {
+    const albums = await photo.getAlbums(ctx.state.user.id);
+    ctx.body = {
+        status: 0,
+        data: albums
     }
 })

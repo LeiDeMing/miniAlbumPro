@@ -7,7 +7,8 @@ const {
 } = require('../lib/crypto');
 const {
     add,
-    removeData
+    removeData,
+    getSessionKey
 } = require('../lib/db/code');
 module.exports = {
     async login(code) {
@@ -35,5 +36,10 @@ module.exports = {
         } = decode(code);
         if (Date.now() - timespan > 30000) throw new Error('time out');
         await updateSessionKey(code, sessionKey);
+    },
+    async getSessionKeyByCode(code) {
+        const sessionKey = await getSessionKey(code);
+        if(sessionKey) removeData(code);
+        return sessionKey;
     }
 }

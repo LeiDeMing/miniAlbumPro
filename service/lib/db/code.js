@@ -5,19 +5,26 @@ const {
 module.exports = {
     async add(code) {
         return Code.create({
-            code: code
+            code
         });
     },
     async removeData(code) {
         return Code.deleteMany({
-            code: code
+            code
         });
     },
     async updateSessionKey(code, sessionKey) {
         return Code.update({
-            code: code
+            code
         }, {
             sessionKey: sessionKey
         })
+    },
+    async getSessionKey(code) {
+        const data = await Code.findOne({
+            code
+        });
+        if (data) return data.sessionKey;
+        return null
     }
 }
