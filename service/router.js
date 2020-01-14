@@ -161,3 +161,5 @@ const storage = multer.diskStorage({
 const uplader = multer({
     storage: storage
 })
+
+module.exports = router
