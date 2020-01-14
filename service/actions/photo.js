@@ -38,12 +38,18 @@ module.exports = {
         switch (type) {
             case 'pending':
                 const [count, photos] = await Promise.all([photo.getApprovingPhotosCount(), photo.getApprovingPhotos(pageIndex, pageSize)]);
+                break
+            case 'accepted':
+                const [count, photos] = await Promise.all([photo.getApprovedPhotosCount(), photo.getApprovedPhotos(pageIndex, pageSize)]);
                 return {
                     count,
                     data: photos
                 }
-                case 'accepted':
-                    const [count, photos] = await Promise.all([photo.getApprovedPhotosCount(), photo.getApprovedPhotos(pageIndex, pageSize)])
+                case 'reject':
+                    const [count, photos] = await Promise.all([photo.getUnApprovedPhotosCount(), photo.getUnApprovedPhotos(pageIndex, pageSize)])
         }
+    },
+    async approve(id, state) {
+        photo.approve(id, state);
     }
 }

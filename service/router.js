@@ -144,6 +144,12 @@ router.get('/admin/photo/:type', async (ctx, next) => {
         data: photos
     }
 })
+
+router.put('/admin/photo/approve/:id/:state', async (ctx, next) => {
+    await photo.approve(ctx.params.id,this.params.state);
+    await next();
+},responseOk);
+
 const storage = multer.diskStorage({
     destination: path.join(__dirname, 'uploads'),
     filename(req, file, cb) {

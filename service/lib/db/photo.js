@@ -40,5 +40,36 @@ module.exports = {
             isApproved: null,
             isDelete: false
         })
+    },
+    async getApprovedPhotosCount() {
+        return Photo.find({
+            isApproved: true,
+            isDelete: false
+        })
+    },
+    async getApprovedPhotos(pageIndex, pageSize) {
+        return Photo.find({
+            isApproved: true,
+            isDelete: false
+        }).skip((pageIndex - 1) * pageSize).limit(pageSize);
+    },
+    async getUnApprovedPhotosCount() {
+        return Photo.find({
+            isApproved: false,
+            isDelete: false
+        })
+    },
+    async getUnApprovedPhotos(pageIndex, pageSize) {
+        return Photo.find({
+            isApproved: false,
+            isDelete: false
+        }).skip((pageIndex - 1) * pageSize).limit(pageSize);
+    },
+    async approve(id, state) {
+        return Photo.update({
+            _id: id
+        }, {
+            isApproved: state || true
+        })
     }
 }
