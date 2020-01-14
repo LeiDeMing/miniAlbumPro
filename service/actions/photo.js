@@ -33,5 +33,17 @@ module.exports = {
     },
     async delete(id) {
         return photo.delete(id);
+    },
+    async getPhotosByApproveState(type, pageIndex, pageSize) {
+        switch (type) {
+            case 'pending':
+                const [count, photos] = await Promise.all([photo.getApprovingPhotosCount(), photo.getApprovingPhotos(pageIndex, pageSize)]);
+                return {
+                    count,
+                    data: photos
+                }
+                case 'accepted':
+                    const [count, photos] = await Promise.all([photo.getApprovedPhotosCount(), photo.getApprovedPhotos(pageIndex, pageSize)])
+        }
     }
 }

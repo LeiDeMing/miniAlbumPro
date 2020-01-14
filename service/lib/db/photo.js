@@ -28,5 +28,17 @@ module.exports = {
         }, {
             isDelete: true
         })
+    },
+    async getApprovingPhotos(pageIndex, pageSize) {
+        return Photo.find({
+            isApproved: null,
+            isDelete: false
+        }).skip((pageIndex - 1) * pageSize).limit(pageSize);
+    },
+    async getApprovingPhotosCount() {
+        return Photo.count({
+            isApproved: null,
+            isDelete: false
+        })
     }
 }

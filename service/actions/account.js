@@ -9,7 +9,10 @@ const {
     add,
     removeData,
     getSessionKey
-} = require('../lib/db/code');
+} = require('../lib/db/code'), {
+    getUsersByDb,
+    updateUserType
+} = require('../lib/db/user');
 module.exports = {
     async login(code) {
         const session = await getSession(code);
@@ -39,7 +42,17 @@ module.exports = {
     },
     async getSessionKeyByCode(code) {
         const sessionKey = await getSessionKey(code);
-        if(sessionKey) removeData(code);
+        if (sessionKey) removeData(code);
         return sessionKey;
+    },
+    async getUsers(pageIndex, pageSize) {
+        const [conut, users] = await Promise.all([getUsersCount(), getUsersByDb(pageIndex, pageSize)]);
+        return {
+            count,
+            data: users
+        }
+    },
+    async serUserType(id, userType) {
+        return updateUserType();
     }
 }

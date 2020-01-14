@@ -45,5 +45,18 @@ module.exports = {
             return users[0];
         }
         return null;
+    },
+    async getUsersCount() {
+        return User.count();
+    },
+    async getUsersByDb(pageIndex, pageSize) {
+        return User.find().skip((pageIndex - 1) * pageSize).limit(pageSize)
+    },
+    async updateUserType(id, userType) {
+        return User.update({
+            _id: id
+        }, {
+            userType: type
+        });
     }
 }

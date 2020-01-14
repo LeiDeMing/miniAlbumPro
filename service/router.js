@@ -12,6 +12,13 @@ async function responseOk(cxt, next) {
     await next();
 }
 
+function getPageParams(ctx) {
+    return {
+        pageIndex: parseInt(ctx.query.pageIndex) || 1,
+        pageSize: parseInt(ctx.query.pageSize) || 10
+    }
+}
+
 router.get('/login/ercode', async (ctx, next) => {
     ctx.body = {
         status: 0,
@@ -77,6 +84,7 @@ router.get('/xcx/album', auth, async (ctx, next) => {
         status: 0,
         data: albums
     }
+    await next();
 })
 
 router.post('/photo', auth, uplader.single('file'), async (ctx, next) => {
@@ -105,6 +113,37 @@ router.delete('/photo/:id', auth, async (ctx, next) => {
     await next();
 }, responseOk)
 
+router.get('/admin/user', async (ctx, next) => {
+    const pageParams = getPageParams(ctx);
+    ctx.body = {
+        status: 0,
+        data: await account.getUsers(pageParams.pageIndex, pageParams.pageSize)
+    }
+    await next();
+})
+/* 
+    type 1 === 管理员
+    type -1 === 禁用用户
+    type 0 普通用户
+    默认 type 0
+*/
+router.get('/admin/user/:id/:userType/:type', async (ctx, next) => {
+    const body = {
+        status: 0,
+        data: await account.setUserType(ctx.params.id, ctx.params.type)
+    };
+    ctx.body = body;
+    await next();
+})
+
+router.get('/admin/photo/:type', async (ctx, next) => {
+    const params = getPageParams(ctx);
+    const photos = await photo.getPhotosByApproveState(ctx.params.type, params.pageIndex, params.pageSize);
+    ctx.body = {
+        status: 0,
+        data: photos
+    }
+})
 const storage = multer.diskStorage({
     destination: path.join(__dirname, 'uploads'),
     filename(req, file, cb) {
