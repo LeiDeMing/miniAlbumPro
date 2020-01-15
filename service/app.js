@@ -3,9 +3,12 @@ const Koa = require('koa'),
 
 const JSON_MIME = 'application/json',
     app = new Koa(),
+    {
+        dbOpen
+    } = require('./lib/db/connect'),
     logger = require('./middlewares/log'),
     router = require('./router');
-
+dbOpen();
 app
     .use(logger)
     .use(bodyParser({
