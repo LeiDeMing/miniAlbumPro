@@ -1,6 +1,5 @@
 const log4js = require('log4js');
-console.log(process.env)
-const env = 'process.env.NODE.ENV';
+const env = process.env.NODE_ENV;
 log4js.configure({
     appenders: {
         everything: {

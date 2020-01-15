@@ -1,4 +1,4 @@
-const HOST = ''
+const HOST = 'http://localhost:3389'
 const SESSION_KEY = 'sessionKey'
 const SERVER_API = {
   ALBUM: '/album',

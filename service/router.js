@@ -1,10 +1,21 @@
-const router = require('koa-router'),
+const router = require('koa-router')(),
     path = require('path'),
     multer = require('koa-multer');
 const account = require('./actions/account'),
     photo = require('./actions/photo'),
     auth = require('./middlewares/auth');
 
+const storage = multer.diskStorage({
+    destination: path.join(__dirname, 'uploads'),
+    filename(req, file, cb) {
+        const ext = path.extname(file.originalname);
+        cb(null, uuid.v4() + ext)
+    }
+})
+
+const uplader = multer({
+    storage: storage
+})
 async function responseOk(cxt, next) {
     ctx.body = {
         status: 0
@@ -18,6 +29,15 @@ function getPageParams(ctx) {
         pageSize: parseInt(ctx.query.pageSize) || 10
     }
 }
+
+router.get('/login', async (ctx, next) => {
+    const code = ctx.query.code;
+    ctx.logger.info(`[login]用户登陆Code为${code}`);
+    ctx.body = {
+        status: 0,
+        data: await account.login(code)
+    }
+})
 
 router.get('/login/ercode', async (ctx, next) => {
     ctx.body = {
@@ -146,20 +166,9 @@ router.get('/admin/photo/:type', async (ctx, next) => {
 })
 
 router.put('/admin/photo/approve/:id/:state', async (ctx, next) => {
-    await photo.approve(ctx.params.id,this.params.state);
+    await photo.approve(ctx.params.id, this.params.state);
     await next();
-},responseOk);
+}, responseOk);
 
-const storage = multer.diskStorage({
-    destination: path.join(__dirname, 'uploads'),
-    filename(req, file, cb) {
-        const ext = path.extname(file.originalname);
-        cb(null, uuid.v4() + ext)
-    }
-})
-
-const uplader = multer({
-    storage: storage
-})
 
 module.exports = router

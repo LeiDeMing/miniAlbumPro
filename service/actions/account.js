@@ -11,7 +11,8 @@ const {
     getSessionKey
 } = require('../lib/db/code'), {
     getUsersByDb,
-    updateUserType
+    updateUserType,
+    login
 } = require('../lib/db/user');
 module.exports = {
     async login(code) {

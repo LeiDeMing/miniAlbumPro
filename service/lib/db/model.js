@@ -25,14 +25,14 @@ const userSchema = new mongoose.Schema({
     }
 })
 
-const codeScheme = mongoose.Scheme({
+const codeScheme = new mongoose.Schema({
     code: {
         type: String
     },
     sessionKey: String
 })
 
-const albumSchema = mongoose.Scheme({
+const albumSchema = new mongoose.Schema({
     userId: {
         type: String
     },
@@ -47,7 +47,7 @@ const albumSchema = mongoose.Scheme({
     }
 })
 
-const photoSchema = mongoose.Schema({
+const photoSchema = new mongoose.Schema({
     userId: {
         type: String
     },
