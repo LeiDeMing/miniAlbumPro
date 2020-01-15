@@ -1,33 +1,50 @@
 //app.js
+import './utils/toPromise'
+import Store from './reducers/index.js'
+import SERVER from './server/index.js'
 App({
-  onLaunch: function () {
-    // 展示本地存储能力
-    var logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
-
-    // 登录
-    wx.login({
-      success: res => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
-      }
+  Store,
+  onLaunch: function() {
+    wx.showLoading({
+      title: 'loading...',
+      mask: true,
     })
-    // 获取用户信息
-    wx.getSetting({
-      success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          wx.getUserInfo({
-            success: res => {
-              // 可以将 res 发送给后台解码出 unionId
-              this.globalData.userInfo = res.userInfo
-
-              // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-              // 所以此处加入 callback 以防止这种情况
-              if (this.userInfoReadyCallback) {
-                this.userInfoReadyCallback(res)
-              }
-            }
+    let session_key;
+    try {
+      session_key = wx.getStorageSync(SERVER.SESSION_KEY)
+    } catch (e) {
+      console.log(`[获取登录key-value失败]${JSON.stringify(e)}`)
+    }
+    if (!session_key) {
+      console.log('token为空，获取token并登录')
+      this._login()
+    } else {
+      console.log(`token存在，进行验证 -> ${session_key}`)
+      this.getUserInfo()
+    }
+  },
+  getUserInfo() {
+    SERVER.getCurrentUserInfo().then(response => {
+      console.log(`token验证成功，并获取用户信息 -> ${JSON.stringify(response.data)}`)
+      Store.dispatch({
+        type: 'MODIFY_USER',
+        data: response.data
+      })
+      wx.hideLoading()
+    }, error => {
+      console.log(`token验证出错，移除token后重新登录 -> ${wx.getStorageSync(SERVER.SESSION_KEY)}`)
+      wx.removeStorage({
+        key: SERVER.SESSION_KEY
+      })
+      this._login()
+    })
+  },
+  _login() {
+    wx.login({
+      complete: (res) => {
+        if(res.code){
+          SERVER.login(res.code).then(response=>{
+            console.log(11111)
           })
         }
       }

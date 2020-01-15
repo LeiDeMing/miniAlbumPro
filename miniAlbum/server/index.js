@@ -7,8 +7,8 @@ const SERVER_API = {
   USER: '/user',
   MY: '/my'
 }
-const HTTP = (url, option = {}, fn = 'requet') => {
-  let seesionKey = ''
+const HTTP = (url, option = {}, fn = 'request') => {
+  let sessionKey = ''
   try {
     sessionKey = wx.getStorageSync(SESSION_KEY)
   } catch (e) {
@@ -33,7 +33,7 @@ const HTTP = (url, option = {}, fn = 'requet') => {
       } else {
         resolve(res)
       }
-    }).catch(e) {
+    }).catch(e => {
       wx.showToast({
         title: '错误提示：网络异常',
         icon: 'none',
@@ -41,7 +41,7 @@ const HTTP = (url, option = {}, fn = 'requet') => {
         duration: 2000
       })
       reject()
-    }
+    })
   })
 }
 
@@ -51,5 +51,41 @@ const SERVER = {
   FM: '',
   getPics() {
     return HTTP(`/xcx${SERVER_API.ALBUM}`)
+  },
+  addPics(name) {
+    return HTTP(SERVER_API.ALBUM, {
+      method: 'post',
+      data: {
+        name
+      }
+    })
+  },
+  getPic(id) {
+    return HTTP(`xcx${SERVER_API.ALBUM}/${id}`)
+  },
+  addPic(opt) {
+    return HTTP(SERVER_API.PHOTO, opt, 'uploadFile')
+  },
+  scanCode(code) {
+    return HTTP(`/login/ercode/${code}`)
+  },
+  updateUserInfo(data) {
+    return HTTP(`${SERVER_API.USER}`, {
+      method: 'put',
+      data
+    })
+  },
+  getCurrentUserInfo() {
+    return HTTP(`${SERVER_API.MY}`, {
+      method: 'get'
+    })
+  },
+  login(code) {
+    return HTTP(SERVER_API.LOGIN, {
+      data: {
+        code: code
+      }
+    })
   }
 }
+module.exports = SERVER

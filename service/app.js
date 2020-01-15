@@ -1,6 +1,5 @@
 const Koa = require('koa'),
-    bodyParser = require('koa-bodyparser'),
-    router = require('koa-router');
+    bodyParser = require('koa-bodyparser');
 
 const JSON_MIME = 'application/json',
     app = new Koa(),
