@@ -2,7 +2,7 @@ const {
     appKey,
     appSecret
 } = require('../config');
-const request = requier('request');
+const request = require('request');
 module.exports = {
     async getSession(code) {
         const url = `https://api.weixin.qq.com/sns/jscode2session?appid=${appKey}&secret=${appSecret}&js_code=${code}&grant_type=authorization_code`

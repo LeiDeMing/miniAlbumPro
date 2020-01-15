@@ -12,7 +12,7 @@ Promise.prototype.finally = function(callback) {
 
 wxKeys.forEach(key => {
   const wxKeyFn = wx[key]
-  if (wxKeyFn && typeof wxKeyFn === 'function') {
+  if (wxKeyFn && typeof wxKeyFn === "function") {
     Object.defineProperty(wx, key, {
       get() {
         return (option = {}) => {

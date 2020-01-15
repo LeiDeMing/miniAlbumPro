@@ -1,5 +1,5 @@
 //app.js
-import './utils/toPromise'
+import './utils/toPromise.js'
 import Store from './reducers/index.js'
 import SERVER from './server/index.js'
 App({
@@ -42,15 +42,13 @@ App({
   _login() {
     wx.login({
       complete: (res) => {
+        console.log(res)
         if(res.code){
           SERVER.login(res.code).then(response=>{
-            console.log(11111)
+            
           })
         }
       }
     })
-  },
-  globalData: {
-    userInfo: null
   }
 })

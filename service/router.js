@@ -1,4 +1,4 @@
-const router = requuire('koa-router'),
+const router = require('koa-router'),
     path = require('path'),
     multer = require('koa-multer');
 const account = require('./actions/account'),
