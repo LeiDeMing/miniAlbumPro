@@ -36,19 +36,28 @@ App({
       wx.removeStorage({
         key: SERVER.SESSION_KEY
       })
-      this._login()
+      if (this.reLoginNum <= 3) this._login()
     })
   },
   _login() {
     wx.login({
       complete: (res) => {
-        console.log(res)
-        if(res.code){
-          SERVER.login(res.code).then(response=>{
-            
+        if (res.code) {
+          SERVER.login(res.code).then(response => {
+            const {
+              data: {
+                sessionKey
+              }
+            } = response.data
+            console.log(`登陆成功，记录新token -> ${sessionKey}`)
+            wx.setStorageSync(SERVER.SESSION_KEY, sessionKey)
+
+            this.getUserInfo()
+            this.reLoginNum++
           })
         }
       }
     })
-  }
+  },
+  reLoginNum: 1
 })

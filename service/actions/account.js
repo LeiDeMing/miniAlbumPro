@@ -19,7 +19,7 @@ module.exports = {
         const session = await getSession(code);
         if (session) {
             const {
-                openId
+                openid: openId
             } = session;
             return login(openId);
         } else {
