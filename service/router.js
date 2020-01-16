@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
 const uplader = multer({
     storage: storage
 })
-async function responseOk(cxt, next) {
+async function responseOk(ctx, next) {
     ctx.body = {
         status: 0
     }
@@ -40,7 +40,7 @@ router.get('/my', auth, async (ctx, next) => {
 
 router.put('/user', auth, async (ctx, next) => {
     ctx.logger.info(`[user]修改用户信息，用户ID为${ctx.state.user.id},修改的内容为${JSON.stringify(ctx.request.body)}`)
-    await account.update(ctx.status.user.id,ctx.request.body);
+    await account.update(ctx.state.user.id,ctx.request.body);
     await next()
 },responseOk)
 

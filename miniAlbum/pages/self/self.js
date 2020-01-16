@@ -12,7 +12,7 @@ Page(connect(mapStateToProps)({
     let userInfo = e.detail.userInfo;
     if (userInfo) {
       const {
-        avatarUrl:avatar,
+        avatarUrl: avatar,
         nickName: name
       } = userInfo
       wx.showLoading({
@@ -22,10 +22,10 @@ Page(connect(mapStateToProps)({
       SERVER.updateUserInfo({
         avatar,
         name
-      }).catch(e=>{
+      }).catch(e => {
         wx.hideLoading()
         console.log(e)
-      }).then(()=>{
+      }).then(() => {
         getApp().getUserInfo()
       })
     } else {
@@ -36,5 +36,8 @@ Page(connect(mapStateToProps)({
         duration: 3000
       })
     }
+  },
+  scanQrcodeHandle: function(e) {
+
   }
 }))

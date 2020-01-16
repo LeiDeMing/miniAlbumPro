@@ -32,13 +32,13 @@ if (env !== 'produciton') {
 
 module.exports = async function (ctx, next) {
     ctx.logger = logger;
-    ctx.logger.info(JSON.stringify({
-        url: ctx.url,
-        query: ctx.query,
-        headers: ctx.headers,
-        ua: ctx.userAgent,
-        timespan: Date.now(),
+    // ctx.logger.info(JSON.stringify({
+    //     url: ctx.url,
+    //     query: ctx.query,
+    //     headers: ctx.headers,
+    //     ua: ctx.userAgent,
+    //     timespan: Date.now(),
 
-    }));
+    // }));
     await next();
 }
