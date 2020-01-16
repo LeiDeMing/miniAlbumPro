@@ -12,7 +12,8 @@ const {
 } = require('../lib/db/code'), {
     getUsersByDb,
     updateUserType,
-    login
+    login,
+    update
 } = require('../lib/db/user');
 module.exports = {
     async login(code) {
@@ -55,5 +56,8 @@ module.exports = {
     },
     async serUserType(id, userType) {
         return updateUserType();
+    },
+    async update(id,data){
+        return update(id,data)
     }
 }

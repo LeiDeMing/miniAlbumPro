@@ -18,7 +18,7 @@ const uplader = multer({
 })
 async function responseOk(cxt, next) {
     ctx.body = {
-        status: '0'
+        status: 0
     }
     await next();
 }
@@ -31,24 +31,31 @@ function getPageParams(ctx) {
 }
 
 router.get('/my', auth, async (ctx, next) => {
+    // ctx.response.status = 200
     ctx.body = {
-        status: '0',
+        status: 0,
         data: ctx.state.user
     }
 })
+
+router.put('/user', auth, async (ctx, next) => {
+    ctx.logger.info(`[user]修改用户信息，用户ID为${ctx.state.user.id},修改的内容为${JSON.stringify(ctx.request.body)}`)
+    await account.update(ctx.status.user.id,ctx.request.body);
+    await next()
+},responseOk)
 
 router.get('/login', async (ctx, next) => {
     const code = ctx.query.code;
     ctx.logger.info(`[login]用户登陆Code为${code}`);
     ctx.body = {
-        status: '0',
+        status: 0,
         data: await account.login(code)
     }
 })
 
 router.get('/login/ercode', async (ctx, next) => {
     ctx.body = {
-        status: '0',
+        status: 0,
         data: await account.getErCode()
     }
 })
@@ -108,7 +115,7 @@ router.del('/album/:id', auth, async (ctx, next) => {
 router.get('/xcx/album', auth, async (ctx, next) => {
     const albums = await photo.getAlbums(ctx.state.user.id);
     ctx.body = {
-        status: '0',
+        status: 0,
         data: albums
     }
     await next();
@@ -143,7 +150,7 @@ router.delete('/photo/:id', auth, async (ctx, next) => {
 router.get('/admin/user', async (ctx, next) => {
     const pageParams = getPageParams(ctx);
     ctx.body = {
-        status: '0',
+        status: 0,
         data: await account.getUsers(pageParams.pageIndex, pageParams.pageSize)
     }
     await next();
@@ -156,7 +163,7 @@ router.get('/admin/user', async (ctx, next) => {
 */
 router.get('/admin/user/:id/:userType/:type', async (ctx, next) => {
     const body = {
-        status: '0',
+        status: 0,
         data: await account.setUserType(ctx.params.id, ctx.params.type)
     };
     ctx.body = body;
@@ -167,7 +174,7 @@ router.get('/admin/photo/:type', async (ctx, next) => {
     const params = getPageParams(ctx);
     const photos = await photo.getPhotosByApproveState(ctx.params.type, params.pageIndex, params.pageSize);
     ctx.body = {
-        status: '0',
+        status: 0,
         data: photos
     }
 })

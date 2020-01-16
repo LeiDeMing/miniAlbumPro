@@ -22,7 +22,7 @@ const HTTP = (url, option = {}, fn = 'request') => {
         'x-session': sessionKey
       }
     }).then(res => {
-      if (res.data.status = -1 && res.data.code === 401) {
+      if (res.data.status === -1 && res.data.code === 401) {
         wx.showToast({
           title: '登录状态失效，请重新登录',
           icon: 'none',

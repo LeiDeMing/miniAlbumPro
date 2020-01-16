@@ -58,5 +58,10 @@ module.exports = {
         }, {
             userType: type
         });
+    },
+    async update(id, data) {
+        return User.update({
+            _id:id
+        },data)
     }
 }
