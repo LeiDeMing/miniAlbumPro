@@ -9,6 +9,7 @@
   align-items: center;
   background: #11b8f5;
   padding: 20rpx 0;
+  width:100%;
 }
 
 .userinfo-avatar {
@@ -48,7 +49,7 @@ button.btn-qcode {
   font-size: 50rpx;
 }
 
-.footer {
+/* .footer {
   position: absolute;
   bottom: 30rpx;
   font-size: 32rpx;
@@ -57,4 +58,4 @@ button.btn-qcode {
   background-color: #11b8f5;
   color: #fff;
   padding: 15rpx 0;
-}
+} */

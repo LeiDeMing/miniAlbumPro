@@ -8,7 +8,8 @@ const {
 const {
     add,
     removeData,
-    getSessionKey
+    getSessionKey,
+    updateSessionKey
 } = require('../lib/db/code'), {
     getUsersByDb,
     updateUserType,

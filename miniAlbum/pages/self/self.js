@@ -38,6 +38,10 @@ Page(connect(mapStateToProps)({
     }
   },
   scanQrcodeHandle: function(e) {
-
+    wx.scanCode({
+      onlyFromCamera: true
+    }).then(res => {
+      console.log(res)
+    })
   }
 }))
