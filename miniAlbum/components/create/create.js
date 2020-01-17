@@ -22,7 +22,7 @@ Component({
    */
   methods: {
     eventInput(e) {
-      this.setDate({
+      this.setData({
         picName: e.detail.value
       })
     },

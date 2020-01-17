@@ -10,7 +10,7 @@ module.exports = {
             isDelete: false
         })
     },
-    async getPhotoByAlbumId(albumId, pageIndex, pageSize) {
+    async getPhotosByAlbumId(albumId, pageIndex, pageSize) {
         return await Photo.find({
             albumId,
             isApproved: true,

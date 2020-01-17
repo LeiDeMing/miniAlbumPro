@@ -94,15 +94,15 @@ router.get('/login/ercode/check/:code', async (ctx, next) => {
     await login();
 })
 
-router.post('/ablum', auth, async (ctx, next) => {
+router.post('/album', auth, async (ctx, next) => {
     const {
         name
     } = ctx.request.body;
     await photo.addAlbum(ctx.state.user.id, name);
     await next();
-})
+},responseOk)
 
-router.put('/albu/:id', auth, async (ctx, next) => {
+router.put('/album/:id', auth, async (ctx, next) => {
     await photo.updateAblum(ctx.params.id, ctx.body.name, ctx.uer);
     await next();
 }, responseOk)

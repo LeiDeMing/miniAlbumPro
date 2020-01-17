@@ -1,66 +1,73 @@
 // pages/pics/pics.js
+import SERVER from '../../server/index.js'
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    pics: [],
+    hidden: true,
+    fm: SERVER.FM
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-
+  onShow() {
+    this.getPics()
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  getPics() {
+    wx.showLoading({
+      title: 'loading...',
+      mask: true
+    })
+    SERVER.getPics().then(res => {
+      const {
+        data,
+        status
+      } = res.data
+      this.setData({
+        pics: data
+      })
+    }).catch(e => {
+      console.log(e)
+    }).finally(() => {
+      wx.hideLoading()
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
+  create() {
+    this.setData({
+      hidden: false
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
+  onAddPics(e) {
+    wx.showLoading({
+      title: '提交中...',
+      mask: true
+    })
+    SERVER.addPics(e.detail.name).then(res => {
+      const {
+        status
+      } = res.data
+      if (status === 0) this.getPics()
+    }).finally(() => {
+      wx.hideLoading()
+      this.setData({
+        hidden: true
+      })
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
+  onGoBack() {
+    wx.hideLoading()
+    this.setData({
+      hidden: true
+    })
   },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  toDetail(evt) {
+    let {
+      id,
+      name
+    } = evt.currentTarget.dataset
+    wx.navigateTo({
+      url: `../pic/pic?id=${id}&name=${name}`,
+    })
   }
 })

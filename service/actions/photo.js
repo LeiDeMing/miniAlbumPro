@@ -17,6 +17,7 @@ module.exports = {
     },
     async getAlbums(userId, pageIndex, pageSize) {
         const albums = await album.getAlbums(userId, pageIndex, pageSize);
+        if(!albums) return []
         return Promise.all(albums.map(async function (item) {
             const id = item._id;
             let ps = await photo.getPhotosByAlbumId(id);

@@ -48,7 +48,7 @@ const HTTP = (url, option = {}, fn = 'request') => {
 const SERVER = {
   SESSION_KEY,
   HOST,
-  FM: '',
+  FM: '../../assets/fengmian.png',
   getPics() {
     return HTTP(`/xcx${SERVER_API.ALBUM}`)
   },
