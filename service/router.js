@@ -40,9 +40,9 @@ router.get('/my', auth, async (ctx, next) => {
 
 router.put('/user', auth, async (ctx, next) => {
     ctx.logger.info(`[user]修改用户信息，用户ID为${ctx.state.user.id},修改的内容为${JSON.stringify(ctx.request.body)}`)
-    await account.update(ctx.state.user.id,ctx.request.body);
+    await account.update(ctx.state.user.id, ctx.request.body);
     await next()
-},responseOk)
+}, responseOk)
 
 router.get('/login', async (ctx, next) => {
     const code = ctx.query.code;
@@ -98,9 +98,18 @@ router.post('/album', auth, async (ctx, next) => {
     const {
         name
     } = ctx.request.body;
-    await photo.addAlbum(ctx.state.user.id, name);
+    const isAlive = await photo.addAlbum(ctx.state.user.id, name);
+    if (isAlive === true) {
+        ctx.body = {
+            status: -1
+        }
+    } else {
+        ctx.body = {
+            status: 0
+        }
+    }
     await next();
-},responseOk)
+})
 
 router.put('/album/:id', auth, async (ctx, next) => {
     await photo.updateAblum(ctx.params.id, ctx.body.name, ctx.uer);

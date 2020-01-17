@@ -4,6 +4,10 @@ const {
 
 module.exports = {
     async add(userId, name) {
+        let isAlive = await Album.find({userId})
+        if(!!isAlive.length){
+            return true
+        }
         return Album.create({
             userId,
             name

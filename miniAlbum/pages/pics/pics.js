@@ -47,12 +47,20 @@ Page({
       const {
         status
       } = res.data
-      if (status === 0) this.getPics()
-    }).finally(() => {
-      wx.hideLoading()
-      this.setData({
-        hidden: true
-      })
+      if (status === 0){
+        this.getPics()
+        wx.hideLoading()
+        this.setData({
+          hidden: true
+        })
+      }else if(status === -1){
+        wx.showToast({
+          title: '相册已存在',
+          icon:'none',
+          mask:true,
+          duration:2000
+        })
+      }
     })
   },
   onGoBack() {
