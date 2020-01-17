@@ -3,6 +3,35 @@ const {
 } = require('./model');
 
 module.exports = {
+    async getPhotos(userId, albumId, pageIndex, pageSize) {
+        let result;
+        if (pageSize) {
+            result = await Photo.find({
+                userId,
+                albumId,
+                isApproved: true,
+                isDelete: false
+            }).sort({
+                'created': -1
+            }).skip((pageIndex - 1) * pageSize).limit(pageSize);
+        } else {
+            result = Photo.find({
+                userId,
+                albumId,
+                isApproved: true,
+                isDelete: false
+            }).sort({'created':-1});
+        }
+        return result;
+    },
+    async getPhotosCount(userId, albumId) {
+        return Photo.count({
+            userId,
+            albumId,
+            isApproved: true,
+            isDelete: false
+        })
+    },
     async getPhotosByAlbumIdCount(albumId) {
         return Photo.count({
             albumId,

@@ -130,6 +130,18 @@ router.get('/xcx/album', auth, async (ctx, next) => {
     await next();
 })
 
+router.get('/xcx/album/:id', auth, async (ctx, next) => {
+    const {
+        id
+    } = ctx.params
+    const photos = await photo.getPhotos(ctx.state.user.id, id);
+    ctx.body = {
+        status: 0,
+        data: photos
+    }
+    await next();
+})
+
 router.post('/photo', auth, uplader.single('file'), async (ctx, next) => {
     const {
         file

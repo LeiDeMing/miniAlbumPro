@@ -1,6 +1,13 @@
 const album = require('../lib/db/album');
 const photo = require('../lib/db/photo')
 module.exports = {
+    async getPhotos(userId, albumId, pageIndex, pageSize) {
+        const [count, photos] = await Promise.all([photo.getPhotosCount(userId, albumId), photo.getPhotos(userId, albumId, pageIndex, pageSize)])
+        return {
+            count,
+            data:photos
+        }
+    },
     async addAlbum(userId, name) {
         return album.add(userId, name)
     },
@@ -17,7 +24,7 @@ module.exports = {
     },
     async getAlbums(userId, pageIndex, pageSize) {
         const albums = await album.getAlbums(userId, pageIndex, pageSize);
-        if(!albums) return []
+        if (!albums) return []
         return Promise.all(albums.map(async function (item) {
             const id = item._id;
             let ps = await photo.getPhotosByAlbumId(id);
