@@ -24,6 +24,7 @@ Page({
         data,
         status
       } = res.data
+      console.log(data)
       this.setData({
         pics: data
       })

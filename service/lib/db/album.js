@@ -4,7 +4,7 @@ const {
 
 module.exports = {
     async add(userId, name) {
-        let isAlive = await Album.find({userId})
+        let isAlive = await Album.find({name})
         if(!!isAlive.length){
             return true
         }
@@ -33,8 +33,9 @@ module.exports = {
             result = await Album.find({
                 userId
             }).sort({
-                'updated': -1
+                'updatedAt': -1
             })
         }
+        return result
     }
 }
