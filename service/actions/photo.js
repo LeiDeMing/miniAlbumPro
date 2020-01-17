@@ -8,6 +8,9 @@ module.exports = {
             data:photos
         }
     },
+    async add(userId,url,adlbumId){
+        return photo.add(userId,url,adlbumId)
+    },
     async addAlbum(userId, name) {
         return album.add(userId, name)
     },

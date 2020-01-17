@@ -1,5 +1,6 @@
 const router = require('koa-router')(),
     path = require('path'),
+    uuid = require('uuid'),
     multer = require('koa-multer');
 const account = require('./actions/account'),
     photo = require('./actions/photo'),
@@ -8,7 +9,7 @@ const account = require('./actions/account'),
 const storage = multer.diskStorage({
     destination: path.join(__dirname, 'uploads'),
     filename(req, file, cb) {
-        const ext = path.extname(file.originalname);
+        const ext = path.extname(file.originalname)
         cb(null, uuid.v4() + ext)
     }
 })
@@ -16,6 +17,7 @@ const storage = multer.diskStorage({
 const uplader = multer({
     storage: storage
 })
+
 async function responseOk(ctx, next) {
     ctx.body = {
         status: 0

@@ -3,6 +3,14 @@ const {
 } = require('./model');
 
 module.exports = {
+    async add(userId, url, albumId) {
+        let _photo = await Photo.create({
+            userId,
+            url,
+            albumId
+        })
+        return _photo
+    },
     async getPhotos(userId, albumId, pageIndex, pageSize) {
         let result;
         if (pageSize) {
@@ -20,7 +28,9 @@ module.exports = {
                 albumId,
                 isApproved: true,
                 isDelete: false
-            }).sort({'created':-1});
+            }).sort({
+                'created': -1
+            });
         }
         return result;
     },

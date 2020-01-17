@@ -61,7 +61,7 @@ const SERVER = {
     })
   },
   getPic(id) {
-    return HTTP(`xcx${SERVER_API.ALBUM}/${id}`)
+    return HTTP(`/xcx${SERVER_API.ALBUM}/${id}`)
   },
   addPic(opt) {
     return HTTP(SERVER_API.PHOTO, opt, 'uploadFile')
