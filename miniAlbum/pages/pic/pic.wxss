@@ -1,4 +1,6 @@
-/* pages/pic/pic.wxss */.pic-head {
+/* pages/pic/pic.wxss */
+
+.pic-head {
   position: relative;
   height: 475rpx;
   overflow: hidden;
@@ -7,6 +9,10 @@
 
 .head-bgi {
   width: 100%;
+}
+
+.head-big {
+  width:100%;
 }
 
 .head-tips {
