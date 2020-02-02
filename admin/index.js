@@ -2,10 +2,13 @@ const Koa = require('koa'),
     bodyParser = require('koa-bodyparser'),
     nunjucks = require('koa-nunjucks-2'),
     path = require('path'),
-    static = require('koa-static');
-const app = new Koa();
+    koaStatic = require('koa-static');
+const app = new Koa(),
+    router = require('./router'),
+    util = require('./util/util');
 
-app.use(static(path.resolve(__dirname, './public')))
+app.use(koaStatic(path.resolve(__dirname, 'public')))
+
 app.use(nunjucks({
     ext: 'html',
     path: path.join(__dirname, 'views'),
@@ -14,8 +17,32 @@ app.use(nunjucks({
     }
 }))
 
+router(app)
+
 app
-    .use(bodyParser)
+    .use(bodyParser())
+    .use(async (ctx, next) => {
+        let _match = ['/login', '/qrcode', '/token', '/check'].indexOf(ctx.request.path) >= 0
+        if (!_match) {
+            const token = util.getToken(ctx)
+            if (!token) {
+                util.redirectToLogin(ctx)
+            } else {
+                const res = await axios.get(`${util.apiUrl}/my`, {
+                    headers: {
+                        'x-session': token
+                    }
+                })
+                if (res.data.data && res.data.data.isAdmin) {
+                    ctx.state.token = token
+                    await next()
+                } else {
+                    util.redirectToLogin(ctx)
+                }
+            }
+        }
+    });
+
 
 app.listen(3340, () => {
     console.log('server启动，port -> 3340')
