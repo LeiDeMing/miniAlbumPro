@@ -4,6 +4,8 @@ const router = require('koa-router')(),
     multer = require('koa-multer');
 const account = require('./actions/account'),
     photo = require('./actions/photo'),
+    config = require('./config'),
+    formUploader = require('./middlewares/qiniu'),
     auth = require('./middlewares/auth');
 
 const storage = multer.diskStorage({
@@ -146,12 +148,13 @@ router.get('/xcx/album/:id', auth, async (ctx, next) => {
 
 router.post('/photo', auth, uplader.single('file'), async (ctx, next) => {
     const {
-        file
+        file:{filename,path}
     } = ctx.req;
     const {
         id
     } = ctx.req.body;
-    await photo.add(ctx.state.user.id, `https://static.ikcamp.cn/${file.filename}`, id);
+    const qiniuRes = await formUploader(filename,path)
+    await photo.add(ctx.state.user.id, `${config.qiniuPicUrl}/${qiniuRes.key}`, id);
     await next();
 }, responseOk)
 
