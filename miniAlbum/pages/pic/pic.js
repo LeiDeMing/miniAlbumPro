@@ -88,7 +88,13 @@ Page({
           id: this.data.id
         }
       }).then(res => {
-
+        wx.hideLoading()
+        wx.showToast({
+          title: '照片上传成功，请到后台管理系统中审核。',
+          icon: 'none',
+          duration: 2000
+        })
+        this.getPic()
       }).catch(e => {
         wx.hideLoading()
         console.log(e)
