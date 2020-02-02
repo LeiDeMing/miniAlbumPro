@@ -80,19 +80,19 @@ Page({
         title: '上传中...',
         mask: true
       })
-      console.log(res)
-      // SERVER.addPic({
-      //   filePath: res.tempFilePaths[0],
-      //   name: 'file',
-      //   formData: {
-      //     id: this.data.id
-      //   }
-      // }).then(res => {
+      // console.log(res)
+      SERVER.addPic({
+        filePath: res.tempFilePaths[0],
+        name: 'file',
+        formData: {
+          id: this.data.id
+        }
+      }).then(res => {
 
-      // }).catch(e => {
-      //   wx.hideLoading()
-      //   console.log(e)
-      // })
+      }).catch(e => {
+        wx.hideLoading()
+        console.log(e)
+      })
     })
   }
 })
