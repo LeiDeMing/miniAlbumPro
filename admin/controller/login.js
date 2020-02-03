@@ -3,11 +3,14 @@ const util = require('../util/util');
 
 module.exports = {
     index: async (ctx, next) => {
-        if(ctx.state.token) {
+        if (ctx.state.token) {
             ctx.status = 302
             ctx.redirect('/photos/all')
-        }else{
+        } else {
             await ctx.render('login/login')
         }
+    },
+    getQrcode: async (ctx, next) => {
+        
     }
 }

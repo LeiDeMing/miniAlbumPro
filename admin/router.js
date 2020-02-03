@@ -5,6 +5,7 @@ module.exports = (app) => {
     //登陆
     router.get('/', loginController.index)
     router.get('/login', loginController.index)
+    router.get('/qrcode',loginController.getQrcode)
 
     //获取照片
     router.get('/photos/:status', async (ctx, next) => {
