@@ -1,4 +1,4 @@
-const HOST = 'http://192.168.2.159:3389'
+const HOST = 'http://192.168.0.105:3389'
 const SESSION_KEY = 'sessionKey'
 const SERVER_API = {
   ALBUM: '/album',

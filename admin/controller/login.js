@@ -12,7 +12,19 @@ module.exports = {
         }
     },
     getQrcode: async (ctx, next) => {
-        const res  = await axios.get(`${config.apiUrl}/login/ercode`)
-        console.log(res)
+        const res = await axios.get(`${config.apiUrl}/login/ercode`)
+        ctx.response.body = res.data.data
+    },
+    getToken: async (ctx, next) => {
+        try {
+            const res = await axios.get(`${config.apiUrl}/login/ercode/check/${ctx.query.code}`)
+            ctx.response.body = res.data
+            if (res.data.data) {
+                util.setToken(ctx, res.data.data.sessionKey)
+            }
+        }catch(e){
+            ctx.status = 500
+            ctx.response.body = '超时'
+        }
     }
 }

@@ -41,7 +41,11 @@ Page(connect(mapStateToProps)({
     wx.scanCode({
       onlyFromCamera: true
     }).then(res => {
-      console.log(res)
+      SERVER.scanCode(res.result).then(e => {
+        wx.showToast({ title: '扫码登录成功', icon: 'success', duration: 2000 })
+      }).catch(e => {
+        wx.showToast({ title: '二维码过期，请单击二维码刷新后重试', icon: 'none', mask: true, duration: 2000 })
+      })
     })
   }
 }))

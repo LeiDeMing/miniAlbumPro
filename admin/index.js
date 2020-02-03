@@ -2,6 +2,7 @@ const Koa = require('koa'),
     bodyParser = require('koa-bodyparser'),
     nunjucks = require('koa-nunjucks-2'),
     path = require('path'),
+    axios = require('axios'),
     koaStatic = require('koa-static');
 const app = new Koa(),
     router = require('./router'),
