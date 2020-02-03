@@ -1,5 +1,6 @@
 const axios = require('axios');
-const util = require('../util/util');
+const util = require('../util/util'),
+    config = require('../config');
 
 module.exports = {
     index: async (ctx, next) => {
@@ -11,6 +12,7 @@ module.exports = {
         }
     },
     getQrcode: async (ctx, next) => {
-        
+        const res  = await axios.get(`${config.apiUrl}/login/ercode`)
+        console.log(res)
     }
 }
