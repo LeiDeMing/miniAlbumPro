@@ -22,9 +22,17 @@ module.exports = {
             if (res.data.data) {
                 util.setToken(ctx, res.data.data.sessionKey)
             }
-        }catch(e){
+        } catch (e) {
             ctx.status = 500
             ctx.response.body = '超时'
         }
+    },
+    checkAuth: async (ctx, next) => {
+        const res = await axios.get(`${config.apiUrl}/my`, {
+            headers: {
+                'x-session': util.getToken(ctx)
+            }
+        })
+        ctx.response.body = res.data
     }
 }

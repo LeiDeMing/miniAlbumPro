@@ -78,7 +78,7 @@ router.get('/login/ercode/check/:code', async (ctx, next) => {
         const sessionKey = await account.getSessionKeyByCode(code);
         if (sessionKey) {
             ctx.body = {
-                staus: 0,
+                status: 0,
                 data: {
                     sessionKey: sessionKey
                 }
