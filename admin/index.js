@@ -17,19 +17,20 @@ app.use(nunjucks({
         trimBlocks: true
     }
 }))
-
+ 
 router(app)
 
 app
     .use(bodyParser())
     .use(async (ctx, next) => {
         let _match = ['/login', '/qrcode', '/token', '/check'].indexOf(ctx.request.path) >= 0
+
         if (!_match) {
-            const token = util.getToken(ctx)
+            let token = util.getToken(ctx)
             if (!token) {
                 util.redirectToLogin(ctx)
             } else {
-                const res = await axios.get(`${util.apiUrl}/my`, {
+                let res = await axios.get('https://api.ikcamp.cn/my', {
                     headers: {
                         'x-session': token
                     }
@@ -41,9 +42,11 @@ app
                     util.redirectToLogin(ctx)
                 }
             }
+        } else {
+            await next()
         }
-    });
-
+    })
+   
 
 app.listen(3340, () => {
     console.log('server启动，port -> 3340')

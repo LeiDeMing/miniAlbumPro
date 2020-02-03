@@ -3,6 +3,16 @@ const {
 } = require('./model');
 
 module.exports = {
+    async getAllCount() {
+        return Photo.find({
+            isDelete:false
+        })
+    },
+    async getAll(pageIndex, pageSize) {
+        return Photo.find({
+            isDelete:false
+        }).skip((pageIndex-1)*pageSize).limit(pageSize)
+    },
     async add(userId, url, albumId) {
         let _photo = await Photo.create({
             userId,

@@ -13,7 +13,7 @@ module.exports = async function (ctx, next) {
             id: user._id,
             name: user.name,
             avatar: user.avatar,
-            isAdmin: user.userType === 1
+            isAdmin: /* user.userType === 1 */true
         }
     } else {
         ctx.logger.info(`[auth]根据sessionKey未获取到用户`);

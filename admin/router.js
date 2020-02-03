@@ -1,6 +1,6 @@
 const router = require('koa-router')();
 const loginController = require('./controller/login')
-
+const photosController = require('./controller/photo')
 module.exports = (app) => {
     //登陆
     router.get('/', loginController.index)
@@ -10,9 +10,7 @@ module.exports = (app) => {
     router.get('/check',loginController.checkAuth)
 
     //获取照片
-    router.get('/photos/:status', async (ctx, next) => {
-
-    })
+    router.get('/photos/:status', photosController.getPhotos)
     //操作照片
     router.put('/photos/:id', async (ctx, next) => {
 
