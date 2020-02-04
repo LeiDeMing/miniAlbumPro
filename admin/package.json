@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.19.2",
+    "feather-icons": "^4.25.0",
     "koa": "^2.11.0",
     "koa-bodyparser": "^4.2.1",
     "koa-nunjucks-2": "^3.0.2",

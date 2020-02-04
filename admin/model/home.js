@@ -4,7 +4,7 @@ const menuData = [{
     url: '/photos/all'
 }, {
     title: '用户管理',
-    iocn: 'usres',
+    icon: 'users',
     url: '/usrs/all'
 }]
 
