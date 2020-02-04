@@ -206,7 +206,12 @@ router.get('/admin/photo/:type', async (ctx, next) => {
     }
 })
 
-router.put('/admin/photos/:id',auth, async (ctx, next) => {
+// router.put('/admin/photo/approve/:id/:state', async (ctx, next) => {
+//     await photo.approve(ctx.params.id, this.params.state);
+//     await next();
+// }, responseOk);
+
+router.put('/admin/photo/:id',auth, async (ctx, next) => {
     if(ctx.state.user.isAdmin){
         await photo.updatePhoto(ctx.params.id, ctx.request.body);
     }

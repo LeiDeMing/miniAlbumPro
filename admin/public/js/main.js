@@ -67,13 +67,13 @@ window.onload = function () {
                 
                 [].forEach.call(checked, function(item, i){
                     let _data = item.parentNode.parentNode.dataset.id;
-                    send('PUT', {type: type}, apiUrl + '/admin/' + window.location.pathname.split('/')[1] + '/' + _data, function(){
+                    send('PUT', {type: type},'/' + window.location.pathname.split('/')[1] + '/' + _data, function(){
                         window.location.reload()
                     });
                 });
             } else {
                 let _data = item.parentNode.parentNode.dataset.id;
-                send('PUT', {type: type}, apiUrl+  '/admin/' + window.location.pathname.split('/')[1] + '/' + _data, /* window.location.reload() */);
+                send('PUT', {type: type},'/' + window.location.pathname.split('/')[1] + '/' + _data, /* window.location.reload() */);
             }
         })
     })

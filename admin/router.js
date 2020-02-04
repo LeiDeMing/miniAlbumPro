@@ -12,9 +12,7 @@ module.exports = (app) => {
     //获取照片
     router.get('/photos/:status', photosController.getPhotos)
     //操作照片
-    router.put('/photos/:id', async (ctx, next) => {
-
-    })
+    router.put('/photos/:id', photosController.editPhotos)
 
     //获取用户
     router.get('/users/:status', async (ctx, next) => {
