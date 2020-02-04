@@ -120,5 +120,10 @@ module.exports = {
         }, {
             isApproved: state || true
         })
+    },
+    async update(id,data){
+        return Photo.update({
+            _id:id
+        },data)
     }
 }

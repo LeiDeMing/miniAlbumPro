@@ -196,6 +196,7 @@ router.get('/admin/user/:id/:userType/:type', async (ctx, next) => {
     await next();
 })
 
+//获取照片
 router.get('/admin/photo/:type', async (ctx, next) => {
     const params = getPageParams(ctx);
     const photos = await photo.getPhotosByApproveState(ctx.params.type, params.pageIndex, params.pageSize);
@@ -205,8 +206,10 @@ router.get('/admin/photo/:type', async (ctx, next) => {
     }
 })
 
-router.put('/admin/photo/approve/:id/:state', async (ctx, next) => {
-    await photo.approve(ctx.params.id, this.params.state);
+router.put('/admin/photos/:id',auth, async (ctx, next) => {
+    if(ctx.state.user.isAdmin){
+        await photo.updatePhoto(ctx.params.id, ctx.request.body);
+    }
     await next();
 }, responseOk);
 

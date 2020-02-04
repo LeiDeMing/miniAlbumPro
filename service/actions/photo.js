@@ -75,6 +75,9 @@ module.exports = {
             }
     },
     async approve(id, state) {
-        photo.approve(id, state);
+        return photo.approve(id, state);
+    },
+    async updatePhoto(id,data){
+        return photo.update(id,data)
     }
 }
