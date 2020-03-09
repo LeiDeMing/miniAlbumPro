@@ -35,14 +35,15 @@ Page({
     this.getPic()
   },
   getPic() {
-    console.log(111)
     SERVER.getPic(this.data.id).then(res => {
       const {
         status,
-        data
+        data: {
+          count
+        }
       } = res.data
       if (status === 0) {
-        let pics = count ? this.reSort(data) : []
+        let pics = count ? this.reSort(res.data.data) : []
         this.setData({
           pics,
           nums: count
