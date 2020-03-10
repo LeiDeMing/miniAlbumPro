@@ -48,6 +48,28 @@ module.exports = {
         if (sessionKey) removeData(code);
         return sessionKey;
     },
+    async update(id,data){
+        return update(id,data)
+    },
+    async getUsersByType(type,pageIndex,pageSize){
+        let userType,count,users
+        switch(type){
+            case 'admin':
+                userType = 1
+                break;
+            case 'blocked':
+                userType = -1
+                break
+            case 'ordinary':
+                userType = 0
+                break
+        }
+        if(userType !== undefined){
+            [count,users]
+        }
+    },
+
+
     async getUsers(pageIndex, pageSize) {
         const [conut, users] = await Promise.all([getUsersCount(), getUsersByDb(pageIndex, pageSize)]);
         return {
@@ -57,8 +79,5 @@ module.exports = {
     },
     async serUserType(id, userType) {
         return updateUserType();
-    },
-    async update(id,data){
-        return update(id,data)
     }
 }

@@ -173,29 +173,6 @@ router.delete('/photo/:id', auth, async (ctx, next) => {
     await next();
 }, responseOk)
 
-router.get('/admin/user', async (ctx, next) => {
-    const pageParams = getPageParams(ctx);
-    ctx.body = {
-        status: 0,
-        data: await account.getUsers(pageParams.pageIndex, pageParams.pageSize)
-    }
-    await next();
-})
-/* 
-    type 1 === 管理员
-    type -1 === 禁用用户
-    type 0 普通用户
-    默认 type 0
-*/
-router.get('/admin/user/:id/:userType/:type', async (ctx, next) => {
-    const body = {
-        status: 0,
-        data: await account.setUserType(ctx.params.id, ctx.params.type)
-    };
-    ctx.body = body;
-    await next();
-})
-
 //获取照片
 router.get('/admin/photo/:type', async (ctx, next) => {
     const params = getPageParams(ctx);
@@ -218,5 +195,35 @@ router.put('/admin/photo/:id',auth, async (ctx, next) => {
     await next();
 }, responseOk);
 
+/**
+ * 获取用户列表
+ * type的值的类型为：
+ * admin: 管理员
+ * blocked: 禁用用户
+ * ordinary: 普通用户
+ * all: 全部用户
+ */
+router.get('/admin/user/:type', async (ctx, next) => {
+    const pageParams = getPageParams(ctx);
+    ctx.body = {
+        status: 0,
+        data: await account.getUsersByType(ctx.params.type,pageParams.pageIndex, pageParams.pageSize)
+    }
+    await next();
+})
+/* 
+    type 1 === 管理员
+    type -1 === 禁用用户
+    type 0 普通用户
+    默认 type 0
+*/
+router.get('/admin/user/:id/:userType/:type', async (ctx, next) => {
+    const body = {
+        status: 0,
+        data: await account.setUserType(ctx.params.id, ctx.params.type)
+    };
+    ctx.body = body;
+    await next();
+})
 
 module.exports = router

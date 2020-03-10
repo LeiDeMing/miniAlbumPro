@@ -114,6 +114,13 @@ module.exports = {
             isDelete: false
         }).skip((pageIndex - 1) * pageSize).limit(pageSize);
     },
+    async update(id,data){
+        return Photo.update({
+            _id:id
+        },data)
+    },
+
+    
     async approve(id, state) {
         return Photo.update({
             _id: id
@@ -121,9 +128,4 @@ module.exports = {
             isApproved: state || true
         })
     },
-    async update(id,data){
-        return Photo.update({
-            _id:id
-        },data)
-    }
 }

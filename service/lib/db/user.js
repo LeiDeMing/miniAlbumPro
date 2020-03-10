@@ -63,5 +63,10 @@ module.exports = {
         return User.update({
             _id:id
         },data)
+    },
+    async getUsersCountByType(type){
+        return User.count({
+            userType:type
+        })
     }
 }
