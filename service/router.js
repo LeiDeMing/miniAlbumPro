@@ -148,12 +148,15 @@ router.get('/xcx/album/:id', auth, async (ctx, next) => {
 
 router.post('/photo', auth, uplader.single('file'), async (ctx, next) => {
     const {
-        file:{filename,path}
+        file: {
+            filename,
+            path
+        }
     } = ctx.req;
     const {
         id
     } = ctx.req.body;
-    const qiniuRes = await formUploader(filename,path)
+    const qiniuRes = await formUploader(filename, path)
     await photo.add(ctx.state.user.id, `${config.qiniuPicUrl}/${qiniuRes.key}`, id);
     await next();
 }, responseOk)
@@ -188,8 +191,8 @@ router.get('/admin/photo/:type', async (ctx, next) => {
 //     await next();
 // }, responseOk);
 
-router.put('/admin/photo/:id',auth, async (ctx, next) => {
-    if(ctx.state.user.isAdmin){
+router.put('/admin/photo/:id', auth, async (ctx, next) => {
+    if (ctx.state.user.isAdmin) {
         await photo.updatePhoto(ctx.params.id, ctx.request.body);
     }
     await next();
@@ -203,11 +206,11 @@ router.put('/admin/photo/:id',auth, async (ctx, next) => {
  * ordinary: 普通用户
  * all: 全部用户
  */
-router.get('/admin/user/:type', async (ctx, next) => {
+router.get('/admin/user/:type', auth, async (ctx, next) => {
     const pageParams = getPageParams(ctx);
     ctx.body = {
         status: 0,
-        data: await account.getUsersByType(ctx.params.type,pageParams.pageIndex, pageParams.pageSize)
+        data: await account.getUsersByType(ctx.params.type, pageParams.pageIndex, pageParams.pageSize)
     }
     await next();
 })
@@ -217,7 +220,7 @@ router.get('/admin/user/:type', async (ctx, next) => {
     type 0 普通用户
     默认 type 0
 */
-router.get('/admin/user/:id/:userType/:type', async (ctx, next) => {
+router.put('/admin/user/:id/:userType/:type', async (ctx, next) => {
     const body = {
         status: 0,
         data: await account.setUserType(ctx.params.id, ctx.params.type)

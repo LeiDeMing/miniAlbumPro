@@ -49,9 +49,6 @@ module.exports = {
     async getUsersCount() {
         return User.count();
     },
-    async getUsersByDb(pageIndex, pageSize) {
-        return User.find().skip((pageIndex - 1) * pageSize).limit(pageSize)
-    },
     async updateUserType(id, userType) {
         return User.update({
             _id: id
@@ -61,12 +58,23 @@ module.exports = {
     },
     async update(id, data) {
         return User.update({
-            _id:id
-        },data)
+            _id: id
+        }, data)
     },
-    async getUsersCountByType(type){
+    async getUsersCountByType(type) {
         return User.count({
-            userType:type
+            userType: type
         })
+    },
+    async getUsersByType(type, pageIndex, pageSize) {
+        return User.find({
+            userType: type
+        }).skip((pageIndex - 1) * pageSize).limit(pageSize)
+    },
+    async getUsers(pageIndex, pageSize) {
+        return User.find().skip((pageIndex - 1) * pageSize).limit(pageSize)
+    },
+    async getUsersCount() {
+        return User.count()
     }
 }

@@ -11,10 +11,13 @@ const {
     getSessionKey,
     updateSessionKey
 } = require('../lib/db/code'), {
-    getUsersByDb,
     updateUserType,
     login,
-    update
+    update,
+    getUsersCountByType,
+    getUsersByType,
+    getUsersCount,
+    getUsers
 } = require('../lib/db/user');
 module.exports = {
     async login(code) {
@@ -48,12 +51,12 @@ module.exports = {
         if (sessionKey) removeData(code);
         return sessionKey;
     },
-    async update(id,data){
-        return update(id,data)
+    async update(id, data) {
+        return update(id, data)
     },
-    async getUsersByType(type,pageIndex,pageSize){
-        let userType,count,users
-        switch(type){
+    async getUsersByType(type, pageIndex, pageSize) {
+        let userType, count, users
+        switch (type) {
             case 'admin':
                 userType = 1
                 break;
@@ -64,19 +67,25 @@ module.exports = {
                 userType = 0
                 break
         }
-        if(userType !== undefined){
-            [count,users]
+        if (userType !== undefined) {
+            [count, users] = await Promise.all([getUsersCountByType(userType), getUsersByType(userType, pageIndex, pageSize)])
+        } else {
+            [count, users] = await Promise.all([getUsersCount(), getUsers(pageIndex, pageSize)])
         }
-    },
-
-
-    async getUsers(pageIndex, pageSize) {
-        const [conut, users] = await Promise.all([getUsersCount(), getUsersByDb(pageIndex, pageSize)]);
         return {
             count,
-            data: users
+            data:users
         }
     },
+
+
+    // async getUsers(pageIndex, pageSize) {
+    //     const [conut, users] = await Promise.all([getUsersCount(), getUsersByDb(pageIndex, pageSize)]);
+    //     return {
+    //         count,
+    //         data: users
+    //     }
+    // },
     async serUserType(id, userType) {
         return updateUserType();
     }

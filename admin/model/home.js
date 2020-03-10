@@ -5,7 +5,7 @@ const menuData = [{
 }, {
     title: '用户管理',
     icon: 'users',
-    url: '/usrs/all'
+    url: '/users/all'
 }]
 
 module.exports = {
