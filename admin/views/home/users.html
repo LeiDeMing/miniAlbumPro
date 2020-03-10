@@ -53,6 +53,8 @@
                     <td>
                       {% if item.userType === 1 %}
                       <span class="badge badge-pill badge-warning"><span data-feather='anchor'></span></span>
+                      {% elif item.userType === 0 %}
+                      <span class="badge badge-pill badge-dark"><span data-feather='user'></span></span>
                       {% elif item.userType === -1 %}
                       <span class="badge badge-pill badge-dark"><span data-feather='user-x'></span></span>
                       {% endif %}
