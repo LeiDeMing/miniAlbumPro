@@ -43,7 +43,8 @@ Page({
         }
       } = res.data
       if (status === 0) {
-        let pics = count ? this.reSort(res.data.data) : []
+        console.log(res.data.data)
+        let pics = count ? this.reSort(res.data.data.data) : []
         this.setData({
           pics,
           nums: count
@@ -58,7 +59,7 @@ Page({
       let eT = formatTime(new Date(e.created))
       e.created = eT
       let _index = result.length
-      if (et !== flag) {
+      if (eT !== flag) {
         flag = eT
       } else {
         _index -= 1
