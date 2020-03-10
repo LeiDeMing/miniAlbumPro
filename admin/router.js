@@ -11,8 +11,8 @@ module.exports = (app) => {
 
     //获取照片
     router.get('/photos/:status', photosController.getPhotos)
-    //操作照片
-    router.put('/photos/:id', photosController.editPhotos)
+    //操作照片 put请求，因为c端传到s端时，s端拿不到传递的参数，所以用get请求
+    router.get('/getphotos/:id', photosController.editPhotos)
 
     //获取用户
     router.get('/users/:status', async (ctx, next) => {

@@ -28,7 +28,7 @@ function send(type,data,url,callback){
         }
     };
     xmlhttp.open(type,url,true);
-    xmlhttp.setRequestHeader("Content-type","application/json;charset=UTF-8");
+    xmlhttp.setRequestHeader("Content-type","application/json");
     xmlhttp.send(JSON.stringify(data));
 };
 

@@ -22,10 +22,10 @@ app.use(async (ctx, next) => {
     try {
         await next();
     } catch (e) {
-        ctx.logger.error(e.stack || ex);
+        ctx.logger.error(e.stack || e);
         ctx.body = {
             status: -1,
-            message: e.message || ex,
+            message: e.message || e,
             code: e.status
         }
     }
