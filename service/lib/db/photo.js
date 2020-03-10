@@ -1,18 +1,17 @@
 const {
     Photo
 } = require('./model');
-const ObjectID = require('mongodb').ObjectID
-
+const ObjectId = require('mongodb').ObjectID
 
 module.exports = {
     async getAllCount() {
         return Photo.find({
-            isDelete:false
+            isDeleted:false
         })
     },
     async getAll(pageIndex, pageSize) {
         return Photo.find({
-            isDelete:false
+            isDeleted:false
         }).skip((pageIndex-1)*pageSize).limit(pageSize)
     },
     async add(userId, url, albumId) {
@@ -30,7 +29,7 @@ module.exports = {
                 userId,
                 albumId,
                 isApproved: true,
-                isDelete: false
+                isDeleted: false
             }).sort({
                 'created': -1
             }).skip((pageIndex - 1) * pageSize).limit(pageSize);
@@ -39,7 +38,7 @@ module.exports = {
                 userId,
                 albumId,
                 isApproved: true,
-                isDelete: false
+                isDeleted: false
             }).sort({
                 'created': -1
             });
@@ -51,23 +50,23 @@ module.exports = {
             userId,
             albumId,
             isApproved: true,
-            isDelete: false
+            isDeleted: false
         })
     },
     async getPhotosByAlbumIdCount(albumId) {
         return Photo.count({
             albumId,
             isApproved: true,
-            isDelete: false
+            isDeleted: false
         })
     },
     async getPhotosByAlbumId(albumId, pageIndex, pageSize) {
         return await Photo.find({
-            albumId,
+            albumId:ObjectId(albumId),
             isApproved: true,
-            ieDeleted: false
+            isDeleted: false
         }).sort({
-            'updated': -1
+            'created': -1
         });
     },
     async getPhotoById(id) {
@@ -77,43 +76,43 @@ module.exports = {
         return Photo.update({
             _id: id
         }, {
-            isDelete: true
+            isDeleted: true
         })
     },
     async getApprovingPhotos(pageIndex, pageSize) {
         return Photo.find({
             isApproved: null,
-            isDelete: false
+            isDeleted: false
         }).skip((pageIndex - 1) * pageSize).limit(pageSize);
     },
     async getApprovingPhotosCount() {
         return Photo.count({
             isApproved: null,
-            isDelete: false
+            isDeleted: false
         })
     },
     async getApprovedPhotosCount() {
         return Photo.find({
             isApproved: true,
-            isDelete: false
+            isDeleted: false
         })
     },
     async getApprovedPhotos(pageIndex, pageSize) {
         return Photo.find({
             isApproved: true,
-            isDelete: false
+            isDeleted: false
         }).skip((pageIndex - 1) * pageSize).limit(pageSize);
     },
     async getUnApprovedPhotosCount() {
         return Photo.find({
             isApproved: false,
-            isDelete: false
+            isDeleted: false
         })
     },
     async getUnApprovedPhotos(pageIndex, pageSize) {
         return Photo.find({
             isApproved: false,
-            isDelete: false
+            isDeleted: false
         }).skip((pageIndex - 1) * pageSize).limit(pageSize);
     },
     async update(id,data){

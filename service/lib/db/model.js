@@ -66,7 +66,7 @@ const photoSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    isDelete: {
+    isDeleted: {
         type: Boolean,
         default: false
     }

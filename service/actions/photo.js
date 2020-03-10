@@ -8,8 +8,8 @@ module.exports = {
             data:photos
         }
     },
-    async add(userId,url,adlbumId){
-        return photo.add(userId,url,adlbumId)
+    async add(userId,url,albumId){
+        return photo.add(userId,url,albumId)
     },
     async addAlbum(userId, name) {
         return album.add(userId, name)
@@ -30,7 +30,7 @@ module.exports = {
         if (!albums) return []
         return Promise.all(albums.map(async function (item) {
             const id = item._id;
-            let ps = await photo.getPhotosByAlbumId(id);
+            let ps = await photo.getPhotosByAlbumId(id + '');
             return Object.assign({
                 photoCount: ps.length,
                 fm: ps[0] ? ps[0].url : null
