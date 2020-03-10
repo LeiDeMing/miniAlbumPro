@@ -6,6 +6,7 @@ const Koa = require('koa'),
     koaStatic = require('koa-static');
 const app = new Koa(),
     router = require('./router'),
+    config = require('./config'),
     util = require('./util/util');
 
 app.use(koaStatic(path.resolve(__dirname, 'public')))
@@ -17,8 +18,6 @@ app.use(nunjucks({
         trimBlocks: true
     }
 }))
- 
-router(app)
 
 app
     .use(bodyParser())
@@ -30,7 +29,7 @@ app
             if (!token) {
                 util.redirectToLogin(ctx)
             } else {
-                let res = await axios.get('https://api.ikcamp.cn/my', {
+                let res = await axios.get(`${config.apiUrl}/my`, {
                     headers: {
                         'x-session': token
                     }
@@ -46,7 +45,8 @@ app
             await next()
         }
     })
-   
+
+router(app)
 
 app.listen(3340, () => {
     console.log('server启动，port -> 3340')

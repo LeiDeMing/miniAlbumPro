@@ -24,7 +24,7 @@ module.exports = {
 
     },
     editPhotos: async (ctx, next) => {
-        const isApproved = ctx.request.query.type === 0 ? null : (ctx.request.query.type == 1)
+        const isApproved = ctx.request.query.type == 0 ? null : (ctx.request.query.type == 1)
         const res = await axios.put(`${config.apiUrl}/admin/photo/${ctx.params.id}`, {
             isApproved
         }, {
@@ -32,6 +32,6 @@ module.exports = {
                 'x-session': ctx.state.token
             }
         })
-        console.log(res)
+        ctx.body = res.data
     }
 }
