@@ -1,7 +1,6 @@
 const token = 'token'
 
 module.exports = {
-    apiUrl:'http://192.168.2.159',
     getToken(ctx) {
         return ctx.cookies.get(token)
     },

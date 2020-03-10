@@ -11,7 +11,6 @@ let page = {
 }
 
 window.onload = function () {
-    const apiUrl = 'http://192.168.0.105:3389'
     // 绑定事件：点击多选
     page.selectBtn.addEventListener('click',function(){
         if(!hasClass(this, 'active')){
