@@ -66,6 +66,9 @@ module.exports = {
             case 'ordinary':
                 userType = 0
                 break
+            default :
+                userType = 2
+                break;
         }
         if (userType !== undefined) {
             [count, users] = await Promise.all([getUsersCountByType(userType), getUsersByType(userType, pageIndex, pageSize)])

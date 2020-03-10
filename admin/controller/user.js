@@ -16,7 +16,7 @@ module.exports = {
         await ctx.render('home/users', {
             menu: model.getMenu(),
             activeMenu: 1,
-            users: res.data.data || [],
+            users: res.data.data.data || [],
             page: Math.ceil(res.data.data.count / count),
             index: parseInt(index),
             status: status
