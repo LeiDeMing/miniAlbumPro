@@ -67,6 +67,7 @@ module.exports = {
         })
     },
     async getUsersByType(type, pageIndex, pageSize) {
+        if(type === 2) return User.find().skip((pageIndex - 1) * pageSize).limit(pageSize)
         return User.find({
             userType: type
         }).skip((pageIndex - 1) * pageSize).limit(pageSize)

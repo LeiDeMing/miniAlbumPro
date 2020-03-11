@@ -31,5 +31,6 @@ module.exports = {
                 'x-session': ctx.state.token
             }
         })
+        ctx.body = res.data
     }
 }

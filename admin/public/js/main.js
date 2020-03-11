@@ -73,7 +73,7 @@ window.onload = function () {
             } else {
                 let _data = item.parentNode.parentNode.dataset.id;
                 send('GET', null, `/get${location.pathname.split('/')[1]}/${_data}?type=${type}`, function () {
-                    location.reload()
+                    // location.reload()
                 });
             }
         })

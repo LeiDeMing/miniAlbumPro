@@ -220,7 +220,7 @@ router.get('/admin/user/:type', auth, async (ctx, next) => {
     type 0 普通用户
     默认 type 0
 */
-router.put('/admin/user/:id', async (ctx, next) => {
+router.put('/admin/user/:id', auth, async (ctx, next) => {
     const body = {
         status: 0,
         data: await account.update(ctx.params.id, ctx.request.body)
