@@ -17,10 +17,8 @@ module.exports = (app) => {
 
     //获取用户
     router.get('/users/:status', userController.getUser)
-    //操作用户权限
-    router.get('/users/:id', async (ctx, next) => {
-
-    })
+    //操作用户权限 与操作照片同理
+    router.get('/getusers/:id', userController.editUsers)
 
     app
         .use(router.routes())

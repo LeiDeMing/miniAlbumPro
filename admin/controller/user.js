@@ -21,5 +21,15 @@ module.exports = {
             index: parseInt(index),
             status: status
         })
+    },
+    editUsers: async (ctx, next) => {
+        const _type = ctx.request.querystring ? ctx.request.query.type : 0
+        const res = await axios.put(`${config.apiUrl}/admin/user/${ctx.params.id}`, {
+            userType: _type
+        }, {
+            headers: {
+                'x-session': ctx.state.token
+            }
+        })
     }
 }
