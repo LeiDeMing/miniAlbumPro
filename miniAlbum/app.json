@@ -1,9 +1,4 @@
 {
-  "pages": [
-    "pages/self/self",
-    "pages/pics/pics",
-    "pages/pic/pic"
-  ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#11b8f5",
