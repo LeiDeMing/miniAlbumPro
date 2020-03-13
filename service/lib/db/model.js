@@ -26,6 +26,14 @@ const userSchema = new mongoose.Schema({
     }
 })
 
-module.exports={
-    User:mongoose.model('User',userSchema)
+const codeSchema = new mongoose.Schema({
+    code: {
+        type: String
+    },
+    sessionKey: String
+})
+
+module.exports = {
+    User: mongoose.model('User', userSchema),
+    Code: mongoose.model('Code', codeSchema)
 }

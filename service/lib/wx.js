@@ -1,7 +1,7 @@
 const {
     appKey,
     appSecret
-} = require('../../config')
+} = require('../config')
 const request = require('request')
 
 module.exports = {

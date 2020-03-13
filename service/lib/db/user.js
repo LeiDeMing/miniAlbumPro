@@ -1,7 +1,7 @@
 const {
     User
 } = require('./model')
-const { encode, decode } = require('./crypto')
+const { encode, decode } = require('../crypto')
 
 const getByOpenId = async (openId) => {
     const users = await User.find({

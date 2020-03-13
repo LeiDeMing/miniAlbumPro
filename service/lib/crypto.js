@@ -23,12 +23,12 @@ function decode(id) {
     }
 }
 
-function encodeErcode() {
+function encodeErCode() {
     return encode(Math.random())
 }
 
 module.exports = {
     encode,
     decode,
-    encodeErcode
+    encodeErCode
 }
