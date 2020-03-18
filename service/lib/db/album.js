@@ -16,5 +16,8 @@ module.exports = {
     },
     async findById(id) {
         return Album.findById(id)
+    },
+    async delete(id) {
+        
     }
 }

@@ -14,5 +14,12 @@ module.exports = {
             throw new Error('没有权限修改此相册')
         }
         return album.update(id, name)
+    },
+    async deleteAlbum(id) {
+        const photos = await photo.getPhotosByAlbumIdCount(id)
+        if(photos){
+            throw new Error('相册还存在相片，不允许删除')
+        }
+        return album.delete(id)
     }
 }
