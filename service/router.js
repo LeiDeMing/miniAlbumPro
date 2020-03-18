@@ -103,3 +103,10 @@ router.put('/album/:id', auth, async (ctx, next) => {
     await next()
 }, responseOk)
 
+/**
+ * 删除相册
+ */
+router.del('/album/:id', auth, async (ctx, next) => {
+    await photo.deleteAlbum(ctx.params.id)
+    await next()
+}, responseOk)
