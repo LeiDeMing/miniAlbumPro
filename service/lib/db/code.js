@@ -12,5 +12,12 @@ module.exports = {
         return Code.deleteMany({
             code
         })
+    },
+    async updateSessionKey(code, sessionKey) {
+        return Code.update({
+            code
+        }, {
+            sessionKey
+        })
     }
 }

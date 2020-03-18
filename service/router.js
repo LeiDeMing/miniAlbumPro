@@ -2,7 +2,8 @@ const Router = require('koa-router'),
     uuid = require('uuid'),
     multer = require('koa-multer'),
     path = require('path');
-const router = new Router()
+const router = new Router(),
+    account = require('./actions/account')
 
 function getPageParams(ctx) {
     return {
@@ -25,3 +26,10 @@ router.get('/login/ercode', async (ctx, next) => {
         data: await account.getErcode()
     }
 })
+
+router.get('/login/ercode/:code', auth, async (ctx, next) => {
+    const code = ctx.params.code
+    const sessionKey = ctx.get('x-session')
+    await account.setSessionKeyForCode(code, sessionKey)
+    await next
+}, responseOk)
