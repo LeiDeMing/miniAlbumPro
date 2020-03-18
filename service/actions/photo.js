@@ -35,7 +35,7 @@ module.exports = {
             return Object.assign({
                 photoCount: ps.length,
                 fm: ps[0] ? ps[0].url : null
-            },item.toObject())
+            }, item.toObject())
         }))
         if (count) {
             return {
@@ -43,5 +43,11 @@ module.exports = {
                 data: result
             }
         }
+    },
+    async getPhotoById(id) {
+        return photo.getPhotoById(id)
+    },
+    async delete(id) {
+        return photo.delete(id)
     }
 }

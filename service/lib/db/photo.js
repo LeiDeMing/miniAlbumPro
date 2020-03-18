@@ -26,5 +26,15 @@ module.exports = {
             })
         }
         return result
+    },
+    async getPhotoById(id) {
+        return Photo.findById(id)
+    },
+    async delete(id) {
+        return Photo.update({
+            _id: id
+        }, {
+            isDelete: true
+        })
     }
 }

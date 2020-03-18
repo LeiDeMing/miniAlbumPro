@@ -4,7 +4,9 @@ const Router = require('koa-router'),
     path = require('path');
 const router = new Router(),
     account = require('./actions/account'),
-    photo = require('./actions/photo')
+    config = require('./config'),
+    formUploader = require('./middlewares/qiniu'),
+    photo = require('./actions/photo');
 
 const storage = multer.diskStorage({
     destination: path.join(__dirname, 'uploads'),
@@ -134,3 +136,26 @@ router.get('/xcx/alum', auth, async (ctx, next) => {
         status: 0
     }
 })
+
+/**
+ * 上传相片
+ */
+router.post('/photo', auth, uploader.single('file'), async (ctx, next) => {
+    const { file: { filename, path }, body: { id } } = ctx.req
+    const qiniuRes = await formUploader(filename, path)
+    await photo.add(ctx.state.user.id, `${config.qiniuPicUrl}/${qiniuRes.key}`, id)
+    await next()
+}, responseOk)
+
+router.delete('/photo/:id', autu, async (ctx, next) => {
+    const { id } = ctx.params
+    const p = await photo.getPhotoById(id)
+    if (p) {
+        if (p.userId === ctx.state.user.id || ctx.state.isAdmin) {
+            await photo.delete(id)
+        } else {
+            ctx.throw(403, '该用户没有权限')
+        }
+    }
+    await next()
+}, responseOk)
