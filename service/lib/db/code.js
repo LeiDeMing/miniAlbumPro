@@ -19,5 +19,15 @@ module.exports = {
         }, {
             sessionKey
         })
+    },
+    async getSessionKey(code) {
+        const data = await Code.findOne({
+            code
+        })
+        if (data) {
+            return code.sessionKey
+        } else {
+            return null
+        }
     }
 }

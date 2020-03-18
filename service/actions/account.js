@@ -4,7 +4,8 @@ const {
 const {
     add,
     removeCode,
-    updateSessionKey
+    updateSessionKey,
+    getSessionKey
 } = require('../lib/db/code')
 const {
     getSession
@@ -40,5 +41,12 @@ module.exports = {
             throw new Error('time out')
         }
         await updateSessionKey(code, sessionKey)
+    },
+    async getSessionKeyByCode(code) {
+        const sessionKey = await getSessionKey(code)
+        if (sessionKey) {
+            await removeCode(code)
+        }
+        return sessionKey
     }
 }
