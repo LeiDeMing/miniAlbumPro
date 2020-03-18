@@ -17,9 +17,31 @@ module.exports = {
     },
     async deleteAlbum(id) {
         const photos = await photo.getPhotosByAlbumIdCount(id)
-        if(photos){
+        if (photos) {
             throw new Error('相册还存在相片，不允许删除')
         }
         return album.delete(id)
+    },
+    async getAlbums(userId, pageIndex, pageSize) {
+        let albums, count
+        if (pageSize) {
+            [albums, count] = await Promise.all([album.getAlbumsCount(userId), album.getAlbums(userId, pageIndex, pageSize)])
+        } else {
+            ablums = await album.getAlbums(userId)
+        }
+        let result = await Promise.all(albums.map(async function (item) {
+            const id = item._id
+            let ps = await photo.getPhotosByAlbumId(id)
+            return Object.assign({
+                photoCount: ps.length,
+                fm: ps[0] ? ps[0].url : null
+            },item.toObject())
+        }))
+        if (count) {
+            return {
+                count,
+                data: result
+            }
+        }
     }
 }

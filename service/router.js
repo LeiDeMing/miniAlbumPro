@@ -110,3 +110,14 @@ router.del('/album/:id', auth, async (ctx, next) => {
     await photo.deleteAlbum(ctx.params.id)
     await next()
 }, responseOk)
+
+/**
+ * 小程序种获取相册列表
+ */
+router.get('/xcx/alum', auth, async (ctx, next) => {
+    const albums = await photo.getAlbums(ctx.state.user.id)
+    ctx.body = {
+        data: albums,
+        status: 0
+    }
+})

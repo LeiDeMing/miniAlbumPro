@@ -7,5 +7,24 @@ module.exports = {
             isApproved: true,
             isDelete: false
         })
+    },
+    async getPhotosByAlbumId(albumId, pageIndex, pageSize) {
+        let result
+        if (pageSize) {
+            result = await Photo.find({
+                albumId,
+                isApproved: true,
+                isDelete: false
+            }).skip((pageIndex - 1) * pageSize).limit(pageSize)
+        } else {
+            result = await Photo.find({
+                albumId,
+                isApproved,
+                isDelete
+            }).sort({
+                'updated': -1
+            })
+        }
+        return result
     }
 }
