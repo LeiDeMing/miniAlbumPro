@@ -3,7 +3,8 @@ const Router = require('koa-router'),
     multer = require('koa-multer'),
     path = require('path');
 const router = new Router(),
-    account = require('./actions/account')
+    account = require('./actions/account'),
+    photo = require('./actions/photo')
 
 function getPageParams(ctx) {
     return {
@@ -72,4 +73,33 @@ router.get('/login/errcode/check/:code', async (ctx, next) => {
     }
     await login()
 })
+
+/**
+ * 添加相册
+ */
+router.post('/album', auth, async (ctx, next) => {
+    const { name } = ctx.request.body
+    await photo.addAlbum(ctx.state.user.id, name)
+    await next()
+}, responseOk)
+
+/**
+ * 获取相册列表
+ */
+router.get('/album', auth, async (ctx, next) => {
+    const pageParams = getPageParams(ctx)
+    const album = await photo.getAlbums(ctx.state.user.id, pageParams.pageIndex, pageParams.pageSize)
+    ctx.body = {
+        data: albums,
+        status: 0
+    }
+})
+
+/**
+ * 修改相册
+ */
+router.put('/album/:id', auth, async (ctx, next) => {
+    await photo.updateAlbum(ctx.params.id, ctx.body.name, ctx.state.user)
+    await next()
+}, responseOk)
 
