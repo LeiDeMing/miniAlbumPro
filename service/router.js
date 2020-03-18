@@ -6,6 +6,18 @@ const router = new Router(),
     account = require('./actions/account'),
     photo = require('./actions/photo')
 
+const storage = multer.diskStorage({
+    destination: path.join(__dirname, 'uploads'),
+    filename(req, file, cb) {
+        const ext = path.extname(file.originalname)
+        cb(null, uuid.v4() + ext)
+    }
+})
+
+const uploader = multer({
+    storage
+})
+
 function getPageParams(ctx) {
     return {
         pageIndex: parseInt(ctx.query.pageIndex) || 1,
