@@ -55,7 +55,21 @@ router.get('/login/errcode/check/:code', async (ctx, next) => {
                     sessionKey
                 }
             }
+        } else {
+            if (Date.now() - startTime < 10000) {
+                await new Promise(resolve => {
+                    process.nextTick(() => {
+                        resolve()
+                    })
+                })
+                await login()
+            } else {
+                ctx.body = {
+                    status: -1
+                }
+            }
         }
     }
+    await login()
 })
 

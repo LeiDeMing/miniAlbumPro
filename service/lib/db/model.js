@@ -26,6 +26,43 @@ const userSchema = new mongoose.Schema({
     }
 })
 
+const albumSchema = new mongoose.Schema({
+    userId: {
+        type: String
+    },
+    name: {
+        type: String
+    }
+}, {
+    versionKey: false,
+    timestamps: { createdAt: 'created', updatedAt: 'updated' }
+})
+
+const photoSchema = new mongoose.Schema({
+    userId: {
+        type: String
+    },
+    url: {
+        type: String
+    },
+    isApproved: {
+        type: Boolean,
+        default: null,
+        index: true
+    },
+    ablumId: {
+        type: mongoose.Schema.Type.ObjectId
+    },
+    created: {
+        type: Date,
+        default: Date.now
+    },
+    isDelete: {
+        type: Boolean,
+        default: false
+    }
+})
+
 const codeSchema = new mongoose.Schema({
     code: {
         type: String
@@ -35,5 +72,6 @@ const codeSchema = new mongoose.Schema({
 
 module.exports = {
     User: mongoose.model('User', userSchema),
-    Code: mongoose.model('Code', codeSchema)
+    Code: mongoose.model('Code', codeSchema),
+    Album: mongoose.model('Album', albumSchema)
 }
