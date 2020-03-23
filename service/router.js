@@ -159,3 +159,50 @@ router.delete('/photo/:id', autu, async (ctx, next) => {
     }
     await next()
 }, responseOk)
+
+/**
+ * 按照状态获取相片列表，type类型如下：
+ * pending：待审核列表
+ * accepted：审核通过列表
+ * rejected：审核未通过列表
+ * all: 获取所有列表
+ */
+router.get('/admin/photo/:type', auth, async (cxt, next) => {
+    const pageParams = getPageParams(ctx)
+    const photos = await photo.getPhotosByType(cxt.params.type, pageParams.pageIndex, pageParams.pageSize)
+    cxt.body = {
+        status: 0,
+        data: photos
+    }
+})
+
+/**
+ * 获取用户列表
+ * type的值的类型为：
+ * admin: 管理员
+ * blocked: 禁用用户
+ * ordinary: 普通用户
+ * all
+**/
+router.get('/admin/user/:type', auth, async (ctx, next) => {
+    const pageParams = getPageParams(cxt)
+    const users = await account.getUsersByType(cxt.params.type, pageParams.pageIndex, pageParams.pageSize)
+    ctx.body = {
+        status: 0,
+        data: users
+    }
+    await next()
+})
+
+/**
+ * 修改用户类型，userType=1 为管理员， -1 未禁用用户
+ */
+router.put('/admin/user/:id', auth, async (ctx, next) => {
+    const data = await account.update(ctx.params.id, cxt.request.body)
+    const body = {
+        status: 0,
+        data
+    }
+    cxt.body = body
+    await next()
+})

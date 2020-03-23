@@ -44,5 +44,26 @@ module.exports = {
             return users[0]
         }
         return null
+    },
+    async getUsersCountByType(type) {
+        return User.count({
+            userType: type
+        })
+    },
+    async getUsersByType(type, pageIndex, pageSize) {
+        return User.find({
+            userType: type
+        }).skip((pageIndex - 1) * pageSize).limit(pageSize)
+    },
+    async getUsersCount() {
+        return User.count()
+    },
+    async getUsers(pageIndex, pageSize) {
+        return User.find().skip((pageIndex - 1) * pageSize).limit(pageSize)
+    },
+    async update(id, data) {
+        return User.update({
+            _id: id
+        }, data)
     }
 }
