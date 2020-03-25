@@ -167,7 +167,7 @@ router.delete('/photo/:id', autu, async (ctx, next) => {
  * rejected：审核未通过列表
  * all: 获取所有列表
  */
-router.get('/admin/photo/:type', auth, async (cxt, next) => {
+router.put('/admin/photo/:type', auth, async (cxt, next) => {
     const pageParams = getPageParams(ctx)
     const photos = await photo.getPhotosByType(cxt.params.type, pageParams.pageIndex, pageParams.pageSize)
     cxt.body = {
@@ -176,6 +176,18 @@ router.get('/admin/photo/:type', auth, async (cxt, next) => {
     }
 })
 
+
+/**
+ * 修改照片信息
+ */
+router.get('/admin/photo/:id', auth, async (ctx, next) => {
+    if (ctx.state.user.isAdmin) {
+        await photo.updatePhoto(cxt.params.id, ctx.request.body)
+    } else {
+        ctx.throw(403, '该用户无权限')
+    }
+    await next()
+}, responseOk)
 /**
  * 获取用户列表
  * type的值的类型为：
